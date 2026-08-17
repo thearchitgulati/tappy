@@ -471,6 +471,67 @@
     gap: 10px;
   }
   .price-actions .btn { text-align: center; }
+  .version-line {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.85rem;
+    color: var(--stone);
+    margin: 18px 0 0;
+  }
+  .version-line a { color: inherit; text-decoration: underline; }
+
+  /* Changelog */
+  .changelog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .changelog-entry {
+    background: var(--paper-raised);
+    border: 1px solid var(--stone-line);
+    border-radius: 16px;
+    padding: 24px 28px;
+  }
+  .changelog-entry-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .changelog-version {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .changelog-date {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.85rem;
+    color: var(--stone);
+  }
+  .changelog-entry ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* Legal / disclaimers */
+  #legal .section-lede { margin-bottom: 24px; }
+  .legal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .legal-list p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--stone);
+    max-width: 70ch;
+    margin: 0;
+  }
+  .legal-list strong { color: var(--ink-soft); }
 
   /* ---------- UPI tip modal ---------- */
   .upi-modal-backdrop {
@@ -830,6 +891,19 @@
         <button class="btn btn-ghost" id="upiOpenButton" type="button">☕ Buy me a coffee</button>
       </div>
     </div>
+    <p class="version-line">Version __CURRENT_VERSION__ · Updated __CURRENT_VERSION_DATE__ · <a href="#changelog">What's new</a></p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="changelog">
+  <div class="section-inner">
+    <h2>What's new</h2>
+    <p class="section-lede">Tappy gets updated regularly. Here's what's changed.</p>
+    <div class="changelog-list">
+__CHANGELOG_HTML__
+    </div>
   </div>
 </section>
 
@@ -872,9 +946,26 @@
   </div>
 </div>
 
+<hr class="rule">
+
+<section id="legal">
+  <div class="section-inner">
+    <h2>The fine print</h2>
+    <p class="section-lede">Short, plain-language version of the legal stuff — the full license is on GitHub.</p>
+    <div class="legal-list">
+      <p><strong>No warranty.</strong> Tappy is provided "as is," with no warranty of any kind. You use it at your own risk — the author isn't liable for any damages, direct or indirect, arising from installing or using it.</p>
+      <p><strong>Unsigned app.</strong> Tappy isn't notarized by Apple (no paid developer account behind this project), so macOS will flag it as from an unidentified developer on first launch. That's expected for an indie project like this — but it does mean you're trusting an unsigned binary when you open it.</p>
+      <p><strong>Your keystrokes stay yours.</strong> Tappy needs Accessibility access to hear key presses system-wide so it can play a click sound. It only reads which key was pressed, in memory, to pick a sound — it never logs, stores, or transmits anything you type, to disk or over the network.</p>
+      <p><strong>Tips are just tips.</strong> "Buy me a coffee" payments are voluntary and non-refundable. They're a thank-you, not a purchase — they don't entitle you to support, feature requests, or any guarantee about future updates.</p>
+      <p><strong>Not affiliated with any keyboard brand.</strong> Sound pack names like "Cherry MX Blue" or "Apple MacBook" describe the character of each recording. Tappy isn't affiliated with, endorsed by, or sponsored by Cherry, Logitech, Apple, Fujitsu, or any other manufacturer named.</p>
+      <p><strong>All rights reserved.</strong> Tappy's source is viewable on GitHub, but modifying, redistributing, or selling it isn't permitted without permission. See the <a href="https://github.com/thearchitgulati/tappy/blob/main/LICENSE">license</a> for details.</p>
+    </div>
+  </div>
+</section>
+
 <footer>
   <span>© 2026 Tappy</span>
-  <span><a href="#packs">Sounds</a> &nbsp;·&nbsp; <a href="#download">Download</a> &nbsp;·&nbsp; <a href="mailto:support@example.com">Support</a></span>
+  <span><a href="#packs">Sounds</a> &nbsp;·&nbsp; <a href="#download">Download</a> &nbsp;·&nbsp; <a href="#changelog">What's new</a> &nbsp;·&nbsp; <a href="#legal">Legal</a> &nbsp;·&nbsp; <a href="mailto:support@example.com">Support</a></span>
 </footer>
 
 <script>
