@@ -38,7 +38,7 @@ This repo is app-only. The [get-tappy.vercel.app](https://get-tappy.vercel.app) 
 
 ## Changelog
 
-Version history lives in [CHANGELOG.json](CHANGELOG.json) and is tagged as [GitHub Releases](https://github.com/thearchitgulati/tappy/releases). The download page's "What's new" section is built from a copy of this file, kept in sync manually when a new version ships.
+See [CHANGELOG.md](CHANGELOG.md) for a readable version history, or [GitHub Releases](https://github.com/thearchitgulati/tappy/releases) for the tagged releases. `CHANGELOG.json` is the machine-readable source of truth the download page's "What's new" section is built from (kept in sync manually when a new version ships).
 
 ## Sound credits
 
