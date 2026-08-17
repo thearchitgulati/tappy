@@ -37,7 +37,10 @@ The app is ad-hoc signed (`codesign --force --sign -`), not notarized — buildi
 
 ## Changelog
 
-See [CHANGELOG.json](CHANGELOG.json) for version history, or check the "What's new" section on the [download page](https://get-tappy.vercel.app).
+Version history is tracked three places, all generated from the same source:
+- [CHANGELOG.json](CHANGELOG.json) — the source of truth
+- [GitHub Releases](https://github.com/thearchitgulati/tappy/releases) — one release per version, tagged
+- The "What's new" section on the [download page](https://get-tappy.vercel.app) — rendered from CHANGELOG.json at build time
 
 ## Sound credits
 
