@@ -45,4 +45,4 @@ See [SOUND_CREDITS.md](SOUND_CREDITS.md).
 
 ## License
 
-MIT
+All rights reserved — see [LICENSE](LICENSE). You're welcome to read the source and build it for your own personal use, but modifying, redistributing, or selling this software (or a derivative of it) requires the copyright holder's permission.
