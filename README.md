@@ -31,16 +31,14 @@ The app is ad-hoc signed (`codesign --force --sign -`), not notarized — buildi
 ## Project layout
 
 - `Sources/Tappy/` — the app itself (Swift, AppKit + AVAudioEngine)
-- `Scripts/` — build scripts for the app bundle, DMG installer, and landing page
-- `Landing/` — the [get-tappy.vercel.app](https://get-tappy.vercel.app) landing/download page
-- `CHANGELOG.json` — version history, also rendered on the download page
+- `Scripts/` — build scripts for the app bundle and DMG installer
+- `CHANGELOG.json` — version history for the app
+
+This repo is app-only. The [get-tappy.vercel.app](https://get-tappy.vercel.app) landing/download page lives in its own separate project, deployed independently via Vercel.
 
 ## Changelog
 
-Version history is tracked three places, all generated from the same source:
-- [CHANGELOG.json](CHANGELOG.json) — the source of truth
-- [GitHub Releases](https://github.com/thearchitgulati/tappy/releases) — one release per version, tagged
-- The "What's new" section on the [download page](https://get-tappy.vercel.app) — rendered from CHANGELOG.json at build time
+Version history lives in [CHANGELOG.json](CHANGELOG.json) and is tagged as [GitHub Releases](https://github.com/thearchitgulati/tappy/releases). The download page's "What's new" section is built from a copy of this file, kept in sync manually when a new version ships.
 
 ## Sound credits
 

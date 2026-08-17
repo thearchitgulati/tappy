@@ -123,10 +123,3 @@ rm -rf "$DMG_STAGING"
 echo ""
 echo "Done: $DMG_VERSIONED_PATH"
 ls -lh "$DMG_VERSIONED_PATH"
-
-# Keep the site's direct-download link in sync with a stable filename --
-# the public URL never needs to change across version bumps.
-DOWNLOADS_DIR="$ROOT_DIR/Landing/downloads"
-mkdir -p "$DOWNLOADS_DIR"
-cp "$DMG_VERSIONED_PATH" "$DOWNLOADS_DIR/$APP_NAME.dmg"
-echo "Synced $DOWNLOADS_DIR/$APP_NAME.dmg for direct hosting"
