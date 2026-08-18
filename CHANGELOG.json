@@ -1,5 +1,14 @@
 [
   {
+    "version": "0.3.0",
+    "date": "2026-08-18",
+    "highlights": [
+      "Added an \"About Tappy\" window with app icon, version, and copyright",
+      "Added a \"Check for Latest Version\" link to the download page",
+      "Added a \"View Source\" link to the GitHub repo"
+    ]
+  },
+  {
     "version": "0.2.0",
     "date": "2026-08-18",
     "highlights": [

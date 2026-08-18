@@ -1,5 +1,24 @@
 import AppKit
 
+/// A single-line text field whose entire bounds act as one clickable link --
+/// plain NSTextField doesn't open `.link`-attributed text on click (that
+/// auto-open behavior is an NSTextView-only feature), so this fills the gap
+/// for a short "Check for updates"-style label.
+private final class HyperlinkTextField: NSTextField {
+    var url: URL?
+
+    override func resetCursorRects() {
+        super.resetCursorRects()
+        addCursorRect(bounds, cursor: .pointingHand)
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        if let url {
+            NSWorkspace.shared.open(url)
+        }
+    }
+}
+
 private let kVKANSI_C: Int64 = 0x08
 private let kVKANSI_V: Int64 = 0x09
 private let kVKSpace: Int64 = 0x31
@@ -23,6 +42,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var menuBarIconOn: NSImage?
     private var menuBarIconOff: NSImage?
     private var toastWindow: NSWindow?
+    private var aboutWindow: NSWindow?
+    private let latestVersionURL = URL(string: "https://get-tappy.vercel.app/download.html")!
+    private let githubRepoURL = URL(string: "https://github.com/thearchitgulati/tappy")!
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         startApp()
@@ -101,6 +123,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         packParentItem.submenu = packMenu
         menu.addItem(packParentItem)
 
+        menu.addItem(NSMenuItem.separator())
+        let aboutItem = NSMenuItem(title: "About Tappy", action: #selector(showAboutWindow), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit Tappy", action: #selector(quit), keyEquivalent: "q"))
 
@@ -274,6 +300,96 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 panel.orderOut(nil)
             }
         }
+    }
+
+    /// A small native-style About window -- mirrors the layout of macOS's own
+    /// standard About panel (icon, name, "Version X.Y.Z") since there's no app
+    /// menu to hang the stock orderFrontStandardAboutPanel off of, plus a
+    /// link to check for newer builds.
+    @objc private func showAboutWindow() {
+        if let window = aboutWindow {
+            NSApp.activate(ignoringOtherApps: true)
+            window.makeKeyAndOrderFront(nil)
+            return
+        }
+
+        let width: CGFloat = 260
+        let height: CGFloat = 270
+
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: width, height: height),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+        window.title = "About Tappy"
+        window.isReleasedWhenClosed = false
+        window.center()
+
+        let iconView = NSImageView()
+        iconView.image = NSApp.applicationIconImage
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 64).isActive = true
+
+        let nameLabel = NSTextField(labelWithString: "Tappy")
+        nameLabel.font = NSFont.boldSystemFont(ofSize: 13)
+        nameLabel.alignment = .center
+
+        let info = Bundle.main.infoDictionary
+        let shortVersion = info?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let versionLabel = NSTextField(labelWithString: "Version \(shortVersion)")
+        versionLabel.font = NSFont.systemFont(ofSize: 11)
+        versionLabel.textColor = .secondaryLabelColor
+        versionLabel.alignment = .center
+
+        func makeLinkField(_ title: String, url: URL) -> HyperlinkTextField {
+            let field = HyperlinkTextField(labelWithString: title)
+            field.url = url
+            field.alignment = .center
+            field.attributedStringValue = NSAttributedString(
+                string: title,
+                attributes: [
+                    .font: NSFont.systemFont(ofSize: 11),
+                    .foregroundColor: NSColor.linkColor,
+                    .underlineStyle: NSUnderlineStyle.single.rawValue
+                ]
+            )
+            return field
+        }
+
+        let linkField = makeLinkField("Check for Latest Version", url: latestVersionURL)
+        let githubField = makeLinkField("View Source", url: githubRepoURL)
+
+        let copyrightLabel = NSTextField(labelWithString: info?["NSHumanReadableCopyright"] as? String ?? "")
+        copyrightLabel.font = NSFont.systemFont(ofSize: 10)
+        copyrightLabel.textColor = .tertiaryLabelColor
+        copyrightLabel.alignment = .center
+
+        let stack = NSStackView(views: [iconView, nameLabel, versionLabel, linkField, githubField, copyrightLabel])
+        stack.orientation = .vertical
+        stack.alignment = .centerX
+        stack.spacing = 10
+        stack.setCustomSpacing(20, after: iconView)
+        stack.setCustomSpacing(20, after: versionLabel)
+        stack.setCustomSpacing(20, after: githubField)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        let content = NSView(frame: NSRect(x: 0, y: 0, width: width, height: height))
+        content.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: content.centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: content.centerYAnchor),
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: content.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: content.trailingAnchor, constant: -16)
+        ])
+
+        window.contentView = content
+        window.isMovableByWindowBackground = true
+
+        aboutWindow = window
+        NSApp.activate(ignoringOtherApps: true)
+        window.makeKeyAndOrderFront(nil)
     }
 
     @objc private func toggleEnabled() {

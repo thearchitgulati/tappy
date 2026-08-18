@@ -2,6 +2,12 @@
 
 `CHANGELOG.json` is the source of truth (read by the download page's "What's new" section) — this file is a human-readable mirror of the same data for browsing on GitHub.
 
+## v0.3.0 — August 18, 2026
+
+- Added an "About Tappy" window with app icon, version, and copyright
+- Added a "Check for Latest Version" link to the download page
+- Added a "View Source" link to the GitHub repo
+
 ## v0.2.0 — August 18, 2026
 
 - Added a first-launch explainer before macOS's Accessibility permission prompt
